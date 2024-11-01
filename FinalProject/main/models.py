@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 class User(models.Model):
     username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
@@ -30,9 +30,6 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-
-    def __str__(self):
-        return f"Order {self.id} by {self.user.username}"
 
     def calculate_total_price(self):
         total = sum(item.product.price * item.quantity for item in self.items.all())
